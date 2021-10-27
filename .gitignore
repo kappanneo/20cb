@@ -1,4 +1,6 @@
 */
+*.pdf
 !.gitignore
 !makefile
 !convert.sh
+!README.md
