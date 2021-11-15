@@ -3,5 +3,7 @@
 *.zip
 !.gitignore
 !makefile
-!convert.sh
+!*.sh
 !README.md
+!src/
+!*.txt

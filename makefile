@@ -1,103 +1,176 @@
 .SECONDARY:
 
-all: edit0_01 \
-     edit0_02 \
-     edit0_03 \
-     edit1_04 \
-     edit1_05 \
-     edit1_06 \
-     edit1_07 \
-     edit1_08 \
-     edit1_09 \
-     edit1_10 \
-     edit1_11 \
-     edit1_12 \
-     edit0_13 \
-     edit0_14 \
-     edit1_15 \
-     compile_16 \
-     compile_17 \
-     edit0_18 \
-     compile_19 \
-     compile_20 \
-     compile_21 \
-     compile_22 ;
+# OBS! folders will be deleted on "make clear", do not set pre-existing folders
+BUILD_DIR   = build
+EXTRACT_DIR = /tmp/20cb
+OUTPUT_DIR  = ~/Downloads/20cb
+COVER_SIZE  = 890x1200
 
-edit0_%: 20th_Century_Boys_v%/
-	gm mogrify -crop 850x1200 -resize "890x1200!" 20th_Century_Boys_v$*/20cb_v$*_c01*/20th\ Century\ Boys\ v$*c01p001.jpg || true
-	rm --force 20th_Century_Boys_v$*/20cb_v$*_c01*/20th\ Century\ Boys\ v$*c01p002.jpg
-	rm --force 20th_Century_Boys_v$*/20cb_v$*_c01*/20th\ Century\ Boys\ v$*c01p004-005.jpg
-	make compile_$*
+all: extract_all build_all publish_all
 
-edit1_%: 20th_Century_Boys_v%/
-	gm mogrify -resize "890x1200!" 20th_Century_Boys_v$*/20cb_v$*_c01*/20th\ Century\ Boys\ v$*c01p001.jpg || true
-	rm --force 20th_Century_Boys_v$*/20cb_v$*_c01*/20th\ Century\ Boys\ v$*c01p002.jpg
-	rm --force 20th_Century_Boys_v$*/20cb_v$*_c01*/20th\ Century\ Boys\ v$*c01p004-005.jpg
-	make compile_$*
+build_all: $(BUILD_DIR)/01_A \
+           $(BUILD_DIR)/02_A \
+           $(BUILD_DIR)/03_A \
+           $(BUILD_DIR)/04_B \
+           $(BUILD_DIR)/05_B \
+           $(BUILD_DIR)/06_B \
+           $(BUILD_DIR)/07_B \
+           $(BUILD_DIR)/08_B \
+           $(BUILD_DIR)/09_B \
+           $(BUILD_DIR)/10_B \
+           $(BUILD_DIR)/11_B \
+           $(BUILD_DIR)/12_B \
+           $(BUILD_DIR)/13_A \
+           $(BUILD_DIR)/14_A \
+           $(BUILD_DIR)/15_B \
+           $(BUILD_DIR)/16_C \
+           $(BUILD_DIR)/17_D \
+           $(BUILD_DIR)/18_A \
+           $(BUILD_DIR)/19_E \
+           $(BUILD_DIR)/20_E \
+           $(BUILD_DIR)/21_F \
+           $(BUILD_DIR)/22_F ;
 
-compile_% : 20th_Century_Boys_v%.pdf ;
+$(BUILD_DIR)/%_A:
+	rm -f $(BUILD_DIR)/$*_* 
+	cp -r $(EXTRACT_DIR)/20cb_v$* $(BUILD_DIR)/
+	gm mogrify -crop 850x1200 -resize "$(COVER_SIZE)!" \
+		$(BUILD_DIR)/20cb_v$*/20cb_v$*_c01*/20th\ Century\ Boys\ v$*c01p001.jpg
+	rm -f $(BUILD_DIR)/20cb_v$*/20cb_v$*_c01*/20th\ Century\ Boys\ v$*c01p002.jpg
+	rm -f $(BUILD_DIR)/20cb_v$*.pdf
+	make $(BUILD_DIR)/20cb_v$*.pdf && touch $(BUILD_DIR)/$*_A
 
-20th_Century_Boys_v%.pdf: 20th_Century_Boys_v%/
-	./convert.sh $*
-	pdftk 20th_Century_Boys_v$*/*.pdf cat output $@
+$(BUILD_DIR)/%_B:
+	rm -f $(BUILD_DIR)/$*_* 
+	cp -r $(EXTRACT_DIR)/20cb_v$* $(BUILD_DIR)/
+	gm mogrify -resize "$(COVER_SIZE)!" \
+		$(BUILD_DIR)/20cb_v$*/20cb_v$*_c01*/20th\ Century\ Boys\ v$*c01p001.jpg
+	rm -f $(BUILD_DIR)/20cb_v$*/20cb_v$*_c01*/20th\ Century\ Boys\ v$*c01p002.jpg
+	rm -f $(BUILD_DIR)/20cb_v$*.pdf
+	make $(BUILD_DIR)/20cb_v$*.pdf && touch $(BUILD_DIR)/$*_B
 
-20th_Century_Boys_v%/:
-	unzip -n 20th\ Century\ Boys\ vol.\ $*.zip 
-	mv 20th_Century_Boys_v$** 20th_Century_Boys_v$*
+$(BUILD_DIR)/%_C:
+	rm -f $(BUILD_DIR)/$*_* 
+	cp -r $(EXTRACT_DIR)/20cb_v$* $(BUILD_DIR)/
+	gm mogrify -crop 795x1200 -resize "$(COVER_SIZE)!" \
+		$(BUILD_DIR)/20cb_v$*/20cb_v$*_c01*/20th\ Century\ Boys\ v$*c01p000.jpg
+	rm -f $(BUILD_DIR)/20cb_v$*.pdf
+	make $(BUILD_DIR)/20cb_v$*.pdf && touch $(BUILD_DIR)/$*_C
 
-clean_all: clean_01 \
-           clean_02 \
-           clean_03 \
-           clean_04 \
-           clean_05 \
-           clean_06 \
-           clean_07 \
-           clean_08 \
-           clean_09 \
-           clean_10 \
-           clean_11 \
-           clean_12 \
-           clean_13 \
-           clean_14 \
-           clean_15 \
-           clean_16 \
-           clean_17 \
-           clean_18 \
-           clean_19 \
-           clean_20 \
-           clean_21 \
-           clean_22 ;
+$(BUILD_DIR)/%_D:
+	rm -f $(BUILD_DIR)/$*_* 
+	cp -r $(EXTRACT_DIR)/20cb_v$* $(BUILD_DIR)/
+	gm mogrify -crop 885x1200+515 -resize "$(COVER_SIZE)!" \
+		$(BUILD_DIR)/20cb_v$*/20cb_v$*_c01*/20th\ Century\ Boys\ v$*c01p000a.jpg
+	rm -f $(BUILD_DIR)/20cb_v$*/20cb_v$*_c01*/20th\ Century\ Boys\ v$*c01p000b.jpg
+	rm -f $(BUILD_DIR)/20cb_v$*/20cb_v$*_c01*/20th\ Century\ Boys\ v$*c01p000c.jpg
+	rm -f $(BUILD_DIR)/20cb_v$*/20cb_v$*_c01*/20th\ Century\ Boys\ v$*c01p000d.jpg
+	rm -f $(BUILD_DIR)/20cb_v$*.pdf
+	make $(BUILD_DIR)/20cb_v$*.pdf && touch $(BUILD_DIR)/$*_D
 
-clean_%:
-	rm --force 20th_Century_Boys_v$*.pdf
-	rm --force -r 20th_Century_Boys_v$*/
+$(BUILD_DIR)/%_E:
+	rm -f $(BUILD_DIR)/$*_* 
+	cp -r $(EXTRACT_DIR)/20cb_v$* $(BUILD_DIR)/
+	gm mogrify -crop 1025x1400 -resize "$(COVER_SIZE)!" \
+		$(BUILD_DIR)/20cb_v$*/20cb_v$*_c01*/20th\ Century\ Boys\ v$*c01p001.jpg
+	rm -f $(BUILD_DIR)/20cb_v$*/20cb_v$*_c01*/20th\ Century\ Boys\ v$*c01p002.png
+	rm -f $(BUILD_DIR)/20cb_v$*/20cb_v$*_c01*/20th\ Century\ Boys\ v$*c01credits.png
+	rm -f $(BUILD_DIR)/20cb_v$*.pdf
+	make $(BUILD_DIR)/20cb_v$*.pdf && touch $(BUILD_DIR)/$*_E
 
-recompile_all: recompile_01 \
-               recompile_02 \
-               recompile_03 \
-               recompile_04 \
-               recompile_05 \
-               recompile_06 \
-               recompile_07 \
-               recompile_08 \
-               recompile_09 \
-               recompile_10 \
-               recompile_11 \
-               recompile_12 \
-               recompile_13 \
-               recompile_14 \
-               recompile_15 \
-               recompile_16 \
-               recompile_17 \
-               recompile_18 \
-               recompile_19 \
-               recompile_20 \
-               recompile_21 \
-               recompile_22 ;
+$(BUILD_DIR)/%_F:
+	rm -f $(BUILD_DIR)/$*_* 
+	cp -r $(EXTRACT_DIR)/20cb_v$* $(BUILD_DIR)/
+	gm mogrify -crop 1035x1400+600 -resize "$(COVER_SIZE)!" \
+		$(BUILD_DIR)/20cb_v$*/20cb_v$*_c01*/20th\ Century\ Boys\ v$*c01p000a.jpg
+	rm -f $(BUILD_DIR)/20cb_v$*/20cb_v$*_c01*/20th\ Century\ Boys\ v$*c01credits.jpg
+	rm -f $(BUILD_DIR)/20cb_v$*/20cb_v$*_c01*/20th\ Century\ Boys\ v$*c01credits.png
+	rm -f $(BUILD_DIR)/20cb_v$*/20cb_v$*_c01*/20th\ Century\ Boys\ v$*c01p000b.jpg
+	rm -f $(BUILD_DIR)/20cb_v$*/20cb_v$*_c01*/20th\ Century\ Boys\ v$*c01p000c.png
+	rm -f $(BUILD_DIR)/20cb_v$*/20cb_v$*_c01*/20th\ Century\ Boys\ v$*c01p001-002.png
+	rm -f $(BUILD_DIR)/20cb_v$*.pdf
+	make $(BUILD_DIR)/20cb_v$*.pdf && touch $(BUILD_DIR)/$*_F
 
-recompile_%: 
-	make delete_$* compile_$*
+extract_%: $(EXTRACT_DIR)/20cb_v%/ ;
 
-delete_%:
-	rm --force 20th_Century_Boys_v$*.pdf
+$(EXTRACT_DIR)/20cb_v%/:
+	unzip -n \
+		src/20th\ Century\ Boys/20th\ Century\ Boys\ vol.\ $*.zip \
+		-d $(EXTRACT_DIR)/
+	cp -r $(EXTRACT_DIR)/20th_Century_Boys_v$** $(EXTRACT_DIR)/20cb_v$*
 
+extract_all: extract_01 \
+             extract_02 \
+             extract_03 \
+             extract_04 \
+             extract_05 \
+             extract_06 \
+             extract_07 \
+             extract_08 \
+             extract_09 \
+             extract_10 \
+             extract_11 \
+             extract_12 \
+             extract_13 \
+             extract_14 \
+             extract_15 \
+             extract_16 \
+             extract_17 \
+             extract_18 \
+             extract_19 \
+             extract_20 \
+             extract_21 \
+             extract_22 ;
+
+$(BUILD_DIR)/20cb_v%.pdf: $(BUILD_DIR)/20cb_v%/
+	@ echo "> compiling vol. $*:"
+	./convert_all.sh $(BUILD_DIR)/20cb_v$*
+	pdftk $(BUILD_DIR)/20cb_v$*/*.pdf cat output $@
+	@ echo " ... vol. $* compiled!"
+
+$(BUILD_DIR)/20cb_v%/: $(EXTRACT_DIR)/20cb_v%/
+	cp -r $(EXTRACT_DIR)/20cb_v$* $(BUILD_DIR)/
+
+publish_%: $(OUTPUT_DIR)/ $(BUILD_DIR)/20cb_v%.pdf
+	@ echo  "> publishing vol. $*:"
+	@ cp $(BUILD_DIR)/20cb_v$*.pdf $(OUTPUT_DIR)/20th\ Century\ Boys\ vol.\ $*.pdf \
+		&& echo " ... vol. $* published to $(OUTPUT_DIR)/" \
+		|| echo " ... skipping unbilt volume."
+
+publish_all: publish_01 \
+             publish_02 \
+             publish_03 \
+             publish_04 \
+             publish_05 \
+             publish_06 \
+             publish_07 \
+             publish_08 \
+             publish_09 \
+             publish_10 \
+             publish_11 \
+             publish_12 \
+             publish_13 \
+             publish_14 \
+             publish_15 \
+             publish_16 \
+             publish_17 \
+             publish_18 \
+             publish_19 \
+             publish_20 \
+             publish_21 \
+             publish_22 ;
+
+$(BUILD_DIR)/:
+	mkdir $(BUILD_DIR)
+
+$(EXTRACT_DIR)/:
+	mkdir $(EXTRACT_DIR)
+
+$(OUTPUT_DIR)/:
+	mkdir $(OUTPUT_DIR)
+
+.PHONY: clean
+clean:
+	rm -f -r $(BUILD_DIR)/
+	rm -f -r $(EXTRACT_DIR)/
+	rm -f -r $(OUTPUT_DIR)/
