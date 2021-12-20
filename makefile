@@ -2,6 +2,7 @@
 
 # OBS! folders will be deleted on "make clear", do not set pre-existing folders
 BUILD_DIR   = build
+MUSIC_DIR 	= ~/Downloads/20cb
 OUTPUT_DIR  = ~/Downloads/20cb
 EXTRACT_DIR = /tmp/20cb
 COVER_SIZE  = 890x1200
@@ -9,6 +10,18 @@ COVER_SIZE  = 890x1200
 .PHONY: all
 all: extract build
 	make publish
+	make music
+
+.PHONY: music
+music: $(MUSIC_DIR)/Endou.Kenji.-.Bob.Lennon.\(20th.Century.Boys\).mp3 \
+       $(MUSIC_DIR)/T_Rex_-_20th_Century_Boy.mp3
+
+$(MUSIC_DIR)/Endou.Kenji.-.Bob.Lennon.\(20th.Century.Boys\).mp3:
+	cp $(BUILD_DIR)/20cb_v08/20cb_v08_c11\[Hawks\]\[MS\]/Extra/Endou.Kenji.-.Bob.Lennon.\(20th.Century.Boys\).mp3 \
+		$(MUSIC_DIR)
+$(MUSIC_DIR)/T_Rex_-_20th_Century_Boy.mp3:
+	cp $(BUILD_DIR)/20cb_v01/20cb_v01_c10\[Hawks\]\[MS\]/Extra/T_Rex_-_20th_Century_Boy.mp3 \
+		$(MUSIC_DIR)
 
 .PHONY: build
 build: build_v01_A \
